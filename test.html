@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Entry</title>
+
+    <style>
+        @font-face {
+            font-family: "VCR";
+            src: url("VCR_OSD_MONO_1.001.ttf") format("truetype");
+        }
+
+       body {
+    margin: 0;
+    font-family: "VCR", monospace;
+    background: url("Lovers Enigma_Background_1.png") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slots input {
+    width: 45px;
+    height: 45px;
+    font-size: 28px;
+    text-align: center;
+    margin: 7px;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.submit-btn {
+    font-family: "VCR";
+    font-size: 26px;
+    padding: 18px 45px;
+    border: 3px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    letter-spacing: 2px;
+    border-radius: 0px;
+    margin-top: 30px;
+}
+
+#unlockBtn {
+    display: none;
+    margin-top: 25px;
+    padding: 12px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    background: black;
+    border: 2px solid white;
+    color: white;
+    font-family: "VCR";
+}
+
+    </style>
+</head>
+
+<<body>
+    <div class="container">
+        <h1>ENTER THE 6-LETTER CODE</h1>
+ 
+<!-- “I decide guilt, shape courage, and reveal strength. Many fear me, yet all pass through me. What am I?” - -->
+
+        <div class="slots">
+            <input type="text" maxlength="1" id="c1">
+            <input type="text" maxlength="1" id="c2">
+            <input type="text" maxlength="1" id="c3">
+            <input type="text" maxlength="1" id="c4">
+            <input type="text" maxlength="1" id="c5">
+            <input type="text" maxlength="1" id="c6">
+        </div>
+
+        <button class="submit-btn" onclick="checkCode()">SUBMIT</button>
+
+        <button id="unlockBtn" onclick="window.location.href='index2.html'">
+            CONTINUE
+        </button>
+    </div>
+</body>
+
+<script>
+(function(){
+    const x = [84,82];
+    const y = "SUFM";
+    const z = [0x53];
+
+    function f(a){
+        return String.fromCharCode(...a);
+    }
+
+    function g(s){
+        return atob(s);
+    }
+
+    const h = [
+        ()=>f(x),
+        ()=>g(y),
+        ()=>String.fromCharCode(z[0])
+    ];
+
+    const secret = h
+        .map(fn=>fn())
+        .reverse()
+        .reverse()
+        .join('')
+        .split('')
+        .filter((c,i)=>i<6)
+        .join('');
+
+    window.checkCode = function(){
+        let code =
+            c1.value + c2.value + c3.value + c4.value + c5.value + c6.value;
+        if(code.toUpperCase()===secret){
+            unlockBtn.style.display="inline-block";
+        } else {
+            alert("Incorrect code. Try again.");
+        }
+    }
+})();
+</script>
+
+</body>
+</html>
