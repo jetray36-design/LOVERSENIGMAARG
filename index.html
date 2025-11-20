@@ -82,7 +82,6 @@
 
         <button class="submit-btn" onclick="checkCode()">SUBMIT</button>
 
-   
         <button id="unlockBtn">CONTINUE</button>
     </div>
 
@@ -104,30 +103,27 @@
 
     const secret = h
         .map(fn=>fn())
-        .reverse()
-        .reverse()
         .join('')
         .split('')
         .filter((c,i)=>i<6)
         .join('');
 
- 
-
-
+    // Secret next page filename (hidden)
     const nextPage = ["i","n","d","e","x","2",".","h","t","m","l"].join("");
 
-
+    // Unlock button click
     document.getElementById("unlockBtn").onclick = () => {
-      
         window.location.href = nextPage + "?k=ok";
     };
 
-
+    // Check code function
     window.checkCode = function(){
         let code =
             c1.value + c2.value + c3.value + c4.value + c5.value + c6.value;
 
         if(code.toUpperCase() === secret){
+            // ✅ Set session token so Page 2 knows access is granted
+            sessionStorage.setItem("arg_access_granted", "true");
             unlockBtn.style.display = "inline-block";
         } else {
             alert("Incorrect code. Try again.");
