@@ -13,8 +13,8 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background-color: #fff;
-            color: #000;
+            background-color: #000; /* BLACK background */
+            color: #fff; /* White text */
             font-family: "VCR", monospace;
             text-align: center;
         }
@@ -30,25 +30,27 @@
             font-size: 36px;
             letter-spacing: 2px;
             color: transparent;
-            -webkit-text-stroke: 2px #000;
-            text-stroke: 2px #000;
+            -webkit-text-stroke: 2px #fff; /* White outline */
+            text-stroke: 2px #fff;
         }
     </style>
 
     <script>
-        // Run immediately
         document.addEventListener("DOMContentLoaded", function () {
             const allowed = sessionStorage.getItem("arg_access_granted");
 
             if (!allowed) {
-                // Replace entire page BEFORE showing anything
                 document.body.style.display = "flex";
                 document.body.innerHTML = `
-                    <h1 style="color:red; font-size:32px;">ACCESS DENIED</h1>
-                    <p>You are not allowed to view this page.</p>
+                    <h1 style="
+                        color:red;
+                        font-size:32px;
+                        -webkit-text-stroke: 0;
+                        text-stroke: 0;
+                    ">ACCESS DENIED</h1>
+                    <p style="color:white;">You are not allowed to view this page.</p>
                 `;
             } else {
-                // Allow page to render normally
                 document.body.style.display = "flex";
             }
         });
