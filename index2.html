@@ -33,6 +33,31 @@
             -webkit-text-stroke: 2px #fff; /* White outline */
             text-stroke: 2px #fff;
         }
+
+        .secret-link {
+            color: #FF6767;
+            font-size: 20px;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+
+        .discord-btn {
+            margin-top: 25px;
+            padding: 12px 28px;
+            font-size: 20px;
+            font-family: "VCR";
+            background: #111;
+            color: #FF6767;
+            border: 2px solid #FF6767;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .discord-btn:hover {
+            background: #FF6767;
+            color: #000;
+        }
+
     </style>
 
     <script>
@@ -60,6 +85,15 @@
 <body>
     <img src="done.gif" alt="Done">
     <h1>Congratulations</h1>
+
+    <!-- Secret hyperlink -->
+    <a class="secret-link" href="https://loversenigmatrialsofheart.pages.dev">You found it</a>
+
+    <!-- Discord Redirect Button -->
+    <button class="discord-btn" onclick="window.location.href='https://discord.gg/YqUvseqeRv'">
+        Click here to join the Trials
+    </button>
+
 </body>
 
 </html>
