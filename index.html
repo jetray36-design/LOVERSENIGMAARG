@@ -3,8 +3,9 @@
 <head>
 <style>
 body {
-  margin: 0;
-  background: #000; /* BLACK background */
+   margin: 0;
+  background: url("BG.png") no-repeat center center fixed;
+  background-size: cover;
 }
 
 .grid {
@@ -39,7 +40,7 @@ body {
 for (let y = 1; y <= 10; y++) {
   for (let x = 1; x <= 20; x++) {
     if (x === 18 && y === 9) {
-      document.write(`<a href="https://google.com" class="circle" onclick="this.classList.add('clicked')"></a>`);
+      document.write(`<a href="fffff" class="circle" onclick="this.classList.add('clicked')"></a>`);
     } else {
       document.write(`<div class="circle" onclick="this.classList.add('clicked')"></div>`);
     }
@@ -49,4 +50,5 @@ for (let y = 1; y <= 10; y++) {
 </div>
 </body>
 </html>
+
 
