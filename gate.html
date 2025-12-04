@@ -1,99 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Access Required</title>
+<meta charset="UTF-8">
+<title>Access Gate</title>
 <style>
-  body {
-    background: #000;
-    color: #fff;
-    font-family: VCR;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .box {
-    text-align: center;
-    width: 320px;
-    padding: 20px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-  }
-  input {
-    width: 90%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: none;
-    background: #111;
-    color: #fff;
-    font-size: 16px;
-  }
-  button {
-    margin-top: 12px;
-    padding: 12px 30px;
-    border-radius: 8px;
-    background: #fff;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .status {
-    margin-top: 15px;
-    color: #f55;
-    font-size: 14px;
-  }
+    body {
+        background: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        gap: 20px;
+    }
+    input {
+        padding: 10px;
+        font-size: 20px;
+        width: 200px;
+        text-align: center;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 20px;
+        cursor: pointer;
+    }
 </style>
+<script>
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPass() {
+    const input = document.getElementById("pass").value;
+    const hash = await sha256(input);
+
+    // Correct SHA-256 of the password string "999193"
+    const correctHash = "836f25291b73aa0bc87db1e629cd1ac3a862bfc35d28969351d01fb1eecce5e8";
+
+    if (hash === correctHash) {
+        sessionStorage.setItem("verified", hash);
+        window.location.href = "dialogue.html";
+    } else {
+        alert("Incorrect password");
+    }
+}
+</script>
 </head>
 <body>
 
-<div class="box">
-  <h3>Enter Passcode</h3>
-  <input type="password" id="pw" placeholder="Passcode">
-  <button id="btn">Enter</button>
-  <div id="status" class="status"></div>
-</div>
-
-<script>
-const obf = [4032, 4032, 4032, 3080, 4032, 3306];
-
-function slowDecode(arr) {
-    let v = "";
-    for (let i = 0; i < arr.length; i++) {
-        let n = Math.floor(Math.sqrt(arr[i]) - 54);
-        v += n;
-    }
-    return v;
-}
-
-const expected = slowDecode(obf);
-
-const hiddenPaths = [
-    "logsys/dialogue.html",
-    "sys/core/.dlg.html",
-    "_data/dial.html",
-    "dialogue.html"
-];
-
-function pickHidden() {
-    return hiddenPaths[3];
-}
-
-document.getElementById("btn").onclick = function() {
-    const input = document.getElementById("pw").value.trim();
-
-    if (input === expected) {
-        sessionStorage.setItem("final_access", "yes");
-        window.location.href = pickHidden();
-    } else {
-        document.getElementById("status").textContent = "Incorrect passcode.";
-    }
-};
-</script>
+<h1>ENTER PASSWORD</h1>
+<input id="pass" type="password" placeholder="******">
+<button onclick="verifyPass()">ENTER</button>
 
 </body>
 </html>
