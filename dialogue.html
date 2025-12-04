@@ -2,58 +2,39 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>The Conversation</title>
-
+<title>Dialogue</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="encrypted-dialogue.js"></script>
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: white;
-        font-family: Arial, sans-serif;
-        font-size: 28px;
-    }
-
-    #warn {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: black;
-        color: red;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 40px;
-        z-index: 9999;
-    }
-
-    #content {
-        display: none; /* hidden until verified */
-        padding: 40px;
-    }
+body{font-family:Arial;background:#111;color:#fff;padding:20px;}
 </style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const ok = sessionStorage.getItem("verified");
-
-    if (ok === "allowed") {
-        document.getElementById("warn").style.display = "none";
-        document.getElementById("content").style.display = "block";
-    }
-});
-</script>
-
 </head>
 <body>
 
-<div id="warn">ACCESS DENIED — RETURN TO GATE</div>
+<h2>Decrypted Dialogue</h2>
+<pre id="dialogue">Decrypting…</pre>
 
-<div id="content">
-<p>
-Figure A: Marriage? To who?!<br> <br> Figure B: To me.<br> <br> For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br> <br> Figure B: Please… please, just say my name once more.<br> <br> ▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br> <br> Figure B: So that all these years of waiting, of this endless torture, would mean something.<br> <br> Figure A: I… I don’t know you.<br> <br> ▆▆▆ eyes flicker with disbelief, then something far darker.<br> <br> Figure B: You don’t… know me?<br> <br> A bitter laugh escapes ▆▆▆ lips.<br> <br> Figure B: I was once… no—<br> <br> ▆▆▆ pauses, their voice faltering, caught between grief and rage.<br> <br> Figure B: I am your everything.<br>
-</p>
-</div>
+<script>
+// check login
+if(sessionStorage.getItem("validated") !== "true"){
+    window.location.href = "gate.html";
+}
+
+// decrypt using AES-256
+try {
+    const bytes = CryptoJS.AES.decrypt(encryptedDialogue, "999193");
+    const text = bytes.toString(CryptoJS.enc.Utf8);
+
+    if(!text){
+        document.getElementById("dialogue").innerText = "Decryption failed.";
+    } else {
+        document.getElementById("dialogue").innerText = text;
+    }
+
+} catch(e){
+    document.getElementById("dialogue").innerText = "Error loading encrypted content.";
+}
+</script>
 
 </body>
 </html>
