@@ -1,40 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Dialogue</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="encrypted-dialogue.js"></script>
-<style>
-body{font-family:Arial;background:#111;color:#fff;padding:20px;}
-</style>
-</head>
-<body>
-
-<h2>Decrypted Dialogue</h2>
-<pre id="dialogue">Decrypting…</pre>
-
-<script>
-// check login
-if(sessionStorage.getItem("validated") !== "true"){
-    window.location.href = "gate.html";
-}
-
-// decrypt using AES-256
-try {
-    const bytes = CryptoJS.AES.decrypt(encryptedDialogue, "999193");
-    const text = bytes.toString(CryptoJS.enc.Utf8);
-
-    if(!text){
-        document.getElementById("dialogue").innerText = "Decryption failed.";
-    } else {
-        document.getElementById("dialogue").innerText = text;
-    }
-
-} catch(e){
-    document.getElementById("dialogue").innerText = "Error loading encrypted content.";
-}
-</script>
-
-</body>
-</html>
+<p>
+Figure A: Marriage? To who?!<br><br>
+Figure B: To me.<br><br>
+For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br><br>
+Figure B: Please… please, just say my name once more.<br><br>
+▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br><br>
+Figure B: So that all these years of waiting, of this endless torture, would mean something.<br><br>
+Figure A: I… I don’t know you.<br><br>
+▆▆▆ eyes flicker with disbelief, then something far darker.<br><br>
+Figure B: You don’t… know me?<br><br>
+A bitter laugh escapes ▆▆▆ lips.<br><br>
+Figure B: I was once… no—<br><br>
+▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
+Figure B: I am your everything.<br>
+</p>
