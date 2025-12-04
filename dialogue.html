@@ -3,14 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>The Conversation</title>
-    <script>
-if (sessionStorage.getItem("final_access") !== "yes") {
-    window.location.href = "index.html"; // or your password page
-}
-</script>
 
 <style>
     body {
+        display: none; /* prevent content flash */
         margin: 0;
         background: #000;
         display: flex;
@@ -22,38 +18,37 @@ if (sessionStorage.getItem("final_access") !== "yes") {
         font-size: 32px;
     }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const verified = localStorage.getItem("verified_pass");
+
+    if (verified !== "999193") {
+        // Not verified → Send back to gate.html
+        window.location.href = "gate.html";
+    }
+});
+</script>
+
+
 </head>
 <body>
 
 <p>
-Figure A: Marriage? To who?!<br>
-<br>
-Figure B: To me.<br>
-<br>
-For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br>
-<br>
-Figure B: Please… please, just say my name once more.<br>
-<br>
-▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br>
-<br>
-Figure B: So that all these years of waiting, of this endless torture, would mean something.<br>
-<br>
-Figure A: I… I don’t know you.<br>
-<br>
-▆▆▆ eyes flicker with disbelief, then something far darker.<br>
-<br>
-Figure B: You don’t… know me?<br>
-<br>
-A bitter laugh escapes ▆▆▆ lips.<br>
-<br>
-Figure B: I was once… no—<br>
-<br>
-▆▆▆ pauses, their voice faltering, caught between grief and rage.<br>
-<br>
+Figure A: Marriage? To who?!<br><br>
+Figure B: To me.<br><br>
+For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br><br>
+Figure B: Please… please, just say my name once more.<br><br>
+▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br><br>
+Figure B: So that all these years of waiting, of this endless torture, would mean something.<br><br>
+Figure A: I… I don’t know you.<br><br>
+▆▆▆ eyes flicker with disbelief, then something far darker.<br><br>
+Figure B: You don’t… know me?<br><br>
+A bitter laugh escapes ▆▆▆ lips.<br><br>
+Figure B: I was once… no—<br><br>
+▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
 Figure B: I am your everything.<br>
 </p>
 
-
 </body>
 </html>
-
