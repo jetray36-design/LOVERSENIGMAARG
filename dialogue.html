@@ -6,16 +6,35 @@
 
 <style>
     body {
-        display: none; /* prevent content flash */
         margin: 0;
         background: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
         color: white;
         font-family: VCR;
         font-size: 32px;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* The story content (hidden unless verified) */
+    #content {
+        display: none;
+        padding: 40px;
+    }
+
+    /* Full-screen warning overlay */
+    #warning {
+        position: fixed;
+        inset: 0;
+        background: black;
+        color: red;
+        font-family: VCR;
+        font-size: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px;
     }
 </style>
 
@@ -23,17 +42,29 @@
 document.addEventListener("DOMContentLoaded", () => {
     const verified = localStorage.getItem("verified_pass");
 
-    if (verified !== "999193") {
-        // Not verified → Send back to gate.html
-        window.location.href = "gate.html";
+    if (verified === "999193") {
+        // Show content, hide warning
+        document.getElementById("content").style.display = "block";
+        document.getElementById("warning").style.display = "none";
+    } else {
+        // Show warning overlay, block access
+        document.getElementById("warning").style.display = "flex";
+        document.getElementById("content").style.display = "none";
     }
 });
 </script>
 
-
 </head>
 <body>
 
+<!-- WARNING overlay -->
+<div id="warning">
+    ACCESS DENIED.<br>
+    RETURN TO PASSWORD GATE.
+</div>
+
+<!-- REAL CONTENT -->
+<div id="content">
 <p>
 Figure A: Marriage? To who?!<br><br>
 Figure B: To me.<br><br>
@@ -49,7 +80,7 @@ Figure B: I was once… no—<br><br>
 ▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
 Figure B: I am your everything.<br>
 </p>
+</div>
 
 </body>
 </html>
-
