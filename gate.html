@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Access Required</title>
+<style>
+  body {
+    background: #000;
+    color: #fff;
+    font-family: VCR;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .box {
+    text-align: center;
+    width: 320px;
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+  }
+  input {
+    width: 90%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #111;
+    color: #fff;
+    font-size: 16px;
+  }
+  button {
+    margin-top: 12px;
+    padding: 12px 30px;
+    border-radius: 8px;
+    background: #fff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .status {
+    margin-top: 15px;
+    color: #f55;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h3>Enter Passcode</h3>
+  <input type="password" id="pw" placeholder="Passcode">
+  <button id="btn">Enter</button>
+  <div id="status" class="status"></div>
+</div>
+
+<script>
+const obf = [4032, 4032, 4032, 3080, 4032, 3306];
+
+function slowDecode(arr) {
+    let v = "";
+    for (let i = 0; i < arr.length; i++) {
+        let n = Math.floor(Math.sqrt(arr[i]) - 54);
+        v += n;
+    }
+    return v;
+}
+
+const expected = slowDecode(obf);
+
+const hiddenPaths = [
+    "logsys/dialogue.html",
+    "sys/core/.dlg.html",
+    "_data/dial.html",
+    "dialogue.html"
+];
+
+function pickHidden() {
+    return hiddenPaths[3];
+}
+
+document.getElementById("btn").onclick = function() {
+    const input = document.getElementById("pw").value.trim();
+
+    if (input === expected) {
+        sessionStorage.setItem("final_access", "yes");
+        window.location.href = pickHidden();
+    } else {
+        document.getElementById("status").textContent = "Incorrect passcode.";
+    }
+};
+</script>
+
+</body>
+</html>
