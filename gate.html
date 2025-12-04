@@ -2,51 +2,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Access Gate</title>
+<title>Encrypted File</title>
 <style>
-    body {
-        background: black;
-        color: white;
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        gap: 20px;
-    }
-    input {
-        padding: 10px;
-        font-size: 20px;
-        width: 200px;
-        text-align: center;
-    }
-    button {
-        padding: 10px 20px;
-        font-size: 20px;
-        cursor: pointer;
-    }
+body{font-family:Arial;background:#111;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;}
+input{padding:10px;border:none;border-radius:5px;margin-top:10px;}
+button{padding:10px 20px;margin-top:10px;cursor:pointer;border:none;border-radius:5px;}
+#error{color:red;margin-top:10px;display:none;}
 </style>
+</head>
+<body>
+
+<h2>Encrypted File</h2>
+<input id="pw" type="password" placeholder="Enter Passcode">
+<button onclick="check()">Unlock</button>
+<div id="error">Incorrect password.</div>
 
 <script>
-function verifyPass() {
-    const pw = document.getElementById("pass").value;
-
-    if (pw === "999193") {
-        sessionStorage.setItem("verified", "allowed");
+function check(){
+    const p = document.getElementById("pw").value.trim();
+    if(p === "999193"){
+        sessionStorage.setItem("validated", "true");
         window.location.href = "dialogue.html";
     } else {
-        alert("Incorrect password");
+        document.getElementById("error").style.display="block";
     }
 }
 </script>
-</head>
-
-<body>
-
-<h1>ENTER PASSWORD</h1>
-<input id="pass" type="password" placeholder="******">
-<button onclick="verifyPass()">ENTER</button>
 
 </body>
 </html>
