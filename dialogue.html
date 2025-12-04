@@ -2,7 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Vice</title>
+<title>The Conversation</title>
+    <script>
+if (sessionStorage.getItem("final_access") !== "yes") {
+    window.location.href = "index.html"; // or your password page
+}
+</script>
+
 <style>
     body {
         margin: 0;
@@ -50,3 +56,4 @@ Figure B: I am your everything.<br>
 
 </body>
 </html>
+
