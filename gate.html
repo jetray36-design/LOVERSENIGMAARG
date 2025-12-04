@@ -27,23 +27,13 @@
         cursor: pointer;
     }
 </style>
+
 <script>
-async function sha256(message) {
-    const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
+function verifyPass() {
+    const pw = document.getElementById("pass").value;
 
-async function verifyPass() {
-    const input = document.getElementById("pass").value;
-    const hash = await sha256(input);
-
-    // Correct SHA-256 of the password string "999193"
-    const correctHash = "836f25291b73aa0bc87db1e629cd1ac3a862bfc35d28969351d01fb1eecce5e8";
-
-    if (hash === correctHash) {
-        sessionStorage.setItem("verified", hash);
+    if (pw === "999193") {
+        sessionStorage.setItem("verified", "allowed");
         window.location.href = "dialogue.html";
     } else {
         alert("Incorrect password");
@@ -51,6 +41,7 @@ async function verifyPass() {
 }
 </script>
 </head>
+
 <body>
 
 <h1>ENTER PASSWORD</h1>
