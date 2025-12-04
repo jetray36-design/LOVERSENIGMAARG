@@ -2,83 +2,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Encrypted File</title>
+<title>The Conversation</title>
+
 <style>
     body {
-        background: black;
+        margin: 0;
+        background: #000;
         color: white;
         font-family: Arial, sans-serif;
-        padding: 40px;
-        font-size: 25px;
-        display: none;
+        font-size: 28px;
     }
-    #warning {
+
+    #warn {
         position: fixed;
-        inset: 0;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
         background: black;
         color: red;
-        font-size: 40px;
         display: flex;
         justify-content: center;
         align-items: center;
-        text-align: center;
+        font-size: 40px;
+        z-index: 9999;
+    }
+
+    #content {
+        display: none; /* hidden until verified */
+        padding: 40px;
     }
 </style>
 
 <script>
-// AES-GCM decrypt
-async function decryptText(password, encryptedBase64) {
-    try {
-        const pwUtf8 = new TextEncoder().encode(password);
-        const pwHash = await crypto.subtle.digest('SHA-256', pwUtf8);
+document.addEventListener("DOMContentLoaded", () => {
+    const ok = sessionStorage.getItem("verified");
 
-        const encryptedArray = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
-
-        const iv = encryptedArray.slice(0, 12);
-        const data = encryptedArray.slice(12);
-
-        const key = await crypto.subtle.importKey(
-            "raw",
-            pwHash,
-            "AES-GCM",
-            false,
-            ["decrypt"]
-        );
-
-        const decrypted = await crypto.subtle.decrypt(
-            { name: "AES-GCM", iv },
-            key,
-            data
-        );
-
-        return new TextDecoder().decode(decrypted);
-
-    } catch {
-        return null;
-    }
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-    const stored = sessionStorage.getItem("verified");
-    if (!stored) {
-        window.location.href = "gate.html";
-        return;
-    }
-
-    const password = "999193";
-
-    // Encrypted content (AES-GCM + base64)
-    const encryptedText =
-"AAATgDEo3oX8DbsR1o0Vx9S8F2rR7OjPex0FuTiZMldBv52AqkSiwsXHK9FeI0sSADa5USGDWimEH5uM8AK8XX9F0zFqJGslXJYnFtzG0i+JCuT8q26QnwI2eQ5i8qXbyzRr";
-
-    const decrypted = await decryptText(password, encryptedText);
-
-    if (decrypted) {
-        document.getElementById("content").innerHTML = decrypted;
-        document.body.style.display = "block";
-        document.getElementById("warning").style.display = "none";
-    } else {
-        window.location.href = "gate.html";
+    if (ok === "allowed") {
+        document.getElementById("warn").style.display = "none";
+        document.getElementById("content").style.display = "block";
     }
 });
 </script>
@@ -86,9 +47,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 </head>
 <body>
 
-<div id="warning">ENCRYPTED FILE — ACCESS DENIED</div>
+<div id="warn">ACCESS DENIED — RETURN TO GATE</div>
 
-<div id="content"></div>
+<div id="content">
+<p>
+Figure A: Marriage? To who?!<br> <br> Figure B: To me.<br> <br> For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br> <br> Figure B: Please… please, just say my name once more.<br> <br> ▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br> <br> Figure B: So that all these years of waiting, of this endless torture, would mean something.<br> <br> Figure A: I… I don’t know you.<br> <br> ▆▆▆ eyes flicker with disbelief, then something far darker.<br> <br> Figure B: You don’t… know me?<br> <br> A bitter laugh escapes ▆▆▆ lips.<br> <br> Figure B: I was once… no—<br> <br> ▆▆▆ pauses, their voice faltering, caught between grief and rage.<br> <br> Figure B: I am your everything.<br>
+</p>
+</div>
 
 </body>
 </html>
