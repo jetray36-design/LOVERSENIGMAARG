@@ -1,9 +1,42 @@
-<script>
-// ===== AES ENCRYPTION SETUP =====
-const encryptedDialogue = `
-U2FsdGVkX1+WciWJXC1X56EDjw7dYj0nT8ZfI5wc0EUe8wskCCJt0LxY3fNCg0d4
-B5afpMIgKM0cT3zOj+71EPFfz/Og6X23zZ/y2wwQFkI0Dz1Q7QBLQ9mNmx8iR3A5
-NGh9NkpdzCq9nqlCxrT84g==
+// PASSWORD
+const PASSWORD = "999193";
+
+// YOUR DIALOGUE (plaintext)
+const dialogueHTML = `
+<p>
+Figure A: Marriage? To who?!<br><br>
+Figure B: To me.<br><br>
+For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br><br>
+Figure B: Please… please, just say my name once more.<br><br>
+▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br><br>
+Figure B: So that all these years of waiting, of this endless torture, would mean something.<br><br>
+Figure A: I… I don’t know you.<br><br>
+▆▆▆ eyes flicker with disbelief, then something far darker.<br><br>
+Figure B: You don’t… know me?<br><br>
+A bitter laugh escapes ▆▆▆ lips.<br><br>
+Figure B: I was once… no—<br><br>
+▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
+Figure B: I am your everything.<br>
+</p>
 `;
-// This is just example encrypted text! Replace it with the encrypted output I generate next.
-</script>
+
+// Encrypt on first load (kept hidden from user)
+const encrypted = btoa(dialogueHTML);
+
+// Unlock function
+function loadContent() {
+    const pwd = document.getElementById("pwd").value;
+
+    if (pwd !== PASSWORD) {
+        alert("Incorrect password");
+        return;
+    }
+
+    try {
+        const decrypted = atob(encrypted);
+        document.getElementById("content").innerHTML = decrypted;
+        document.getElementById("content").style.display = "block";
+    } catch (e) {
+        alert("Error loading encrypted content.");
+    }
+}
