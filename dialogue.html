@@ -3,84 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <title>The Conversation</title>
-
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: white;
-        font-family: VCR;
-        font-size: 32px;
-        height: 100vh;
-        overflow: hidden;
-        position: relative;
+    html,body{height:100%;margin:0;background:#000;color:#fff;font-family:VCR,monospace;}
+    #container{height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+    #content{display:none;padding:40px;max-width:900px;font-size:20px;line-height:1.6;}
+    #overlay{
+      position:fixed;inset:0;
+      background:#000;
+      color:#ff4444;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:30px;box-sizing:border-box;
+      z-index:9999;
     }
-
-    /* The story content (hidden unless verified) */
-    #content {
-        display: none;
-        padding: 40px;
-    }
-
-    /* Full-screen warning overlay */
-    #warning {
-        position: fixed;
-        inset: 0;
-        background: black;
-        color: red;
-        font-family: VCR;
-        font-size: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 40px;
+    #overlay h1{margin:0;font-size:48px;letter-spacing:4px;color:#ff6767;}
+    #overlay p{margin-top:18px;color:#fff;font-size:18px;opacity:0.9;}
+    .fade-in{animation:fade .28s ease both}
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+    @media(max-width:720px){
+      #overlay h1{font-size:34px}
+      #content{font-size:18px;padding:22px}
     }
 </style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const verified = localStorage.getItem("verified_pass");
-
-    if (verified === "999193") {
-        // Show content, hide warning
-        document.getElementById("content").style.display = "block";
-        document.getElementById("warning").style.display = "none";
-    } else {
-        // Show warning overlay, block access
-        document.getElementById("warning").style.display = "flex";
-        document.getElementById("content").style.display = "none";
-    }
-});
-</script>
-
 </head>
 <body>
+<div id="container">
+  <div id="content" class="fade-in" aria-hidden="true">
+    <p>
+    Figure A: Marriage? To who?!<br><br>
+    Figure B: To me.<br><br>
+    For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br><br>
+    Figure B: Please… please, just say my name once more.<br><br>
+    ▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br><br>
+    Figure B: So that all these years of waiting, of this endless torture, would mean something.<br><br>
+    Figure A: I… I don’t know you.<br><br>
+    ▆▆▆ eyes flicker with disbelief, then something far darker.<br><br>
+    Figure B: You don’t… know me?<br><br>
+    A bitter laugh escapes ▆▆▆ lips.<br><br>
+    Figure B: I was once… no—<br><br>
+    ▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
+    Figure B: I am your everything.<br>
+    </p>
+  </div>
 
-<!-- WARNING overlay -->
-<div id="warning">
-    ACCESS DENIED.<br>
-    RETURN TO PASSWORD GATE.
+  <div id="overlay" role="alert" aria-live="assertive">
+    <h1>ENCRYPTED FILE</h1>
+    <p>ACCESS DENIED — RETURN TO PASSWORD GATE</p>
+  </div>
 </div>
 
-<!-- REAL CONTENT -->
-<div id="content">
-<p>
-Figure A: Marriage? To who?!<br><br>
-Figure B: To me.<br><br>
-For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br><br>
-Figure B: Please… please, just say my name once more.<br><br>
-▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br><br>
-Figure B: So that all these years of waiting, of this endless torture, would mean something.<br><br>
-Figure A: I… I don’t know you.<br><br>
-▆▆▆ eyes flicker with disbelief, then something far darker.<br><br>
-Figure B: You don’t… know me?<br><br>
-A bitter laugh escapes ▆▆▆ lips.<br><br>
-Figure B: I was once… no—<br><br>
-▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
-Figure B: I am your everything.<br>
-</p>
-</div>
+<script>
+(function(){
+  function isVerified() {
+    try {
+      var a = sessionStorage.getItem('final_access');
+      var b = sessionStorage.getItem('verified_pass');
+      var c = localStorage.getItem('verified_pass');
+      var d = localStorage.getItem('final_access');
+      if (a === 'yes' || d === 'yes') return true;
+      if (b === '999193' || c === '999193') return true;
+      if (b === 'yes' || c === 'yes') return true;
+    } catch(e) {}
+    return false;
+  }
 
+  function showContent() {
+    var overlay = document.getElementById('overlay');
+    var content = document.getElementById('content');
+    overlay.style.display = 'none';
+    content.style.display = 'block';
+    content.setAttribute('aria-hidden','false');
+  }
+
+  function showOverlay() {
+    var overlay = document.getElementById('overlay');
+    var content = document.getElementById('content');
+    overlay.style.display = 'flex';
+    content.style.display = 'none';
+    content.setAttribute('aria-hidden','true');
+  }
+
+  if (isVerified()) {
+    showContent();
+  } else {
+    showOverlay();
+  }
+
+  window.addEventListener('storage', function(e){
+    if (isVerified()) showContent();
+  }, false);
+})();
+</script>
 </body>
 </html>
