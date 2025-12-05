@@ -1,12 +1,34 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
 // PASSWORD REQUIRED
 const PASSWORD = "999193";
 
-// Encrypted AES blob (will be generated from plaintext)
-const encryptedContent = "U2FsdGVkX1+78vLMyC55MVY4HNpnjlzqgqKv2iWg8Ht6a1ArHUOaKkhhR3YZz7/docmY6R8HfuT71zMYM6wVCb3u66EU5rx25i0uJSzsGBUauY1ybk52iuviLU+HkL9JqJXFcRZL8f9dY5lEwbZ4Vh35LMnm1w3nMuNtOGVcst/fkUO15K5rr8m9lausTz9GE4zwAuuxopmJ4Bl/QXb5GgeO8SjpTVz+3o1pLND9qNLxUHJGNSh5eKwmqLgnRC7v0Tg+Y5qtdlXp0s06wvdjgXpkJ3SyazgoCijHkYXNAED2Sx41Z2MGOH3jcbvLFncyCqGpsYpH8SJzO0cQt4ogWJwPY=";
+// YOUR SECRET DIALOGUE (plaintext)
+const dialogueHTML = `
+<p>
+Figure A: Marriage? To who?!<br><br>
+Figure B: To me.<br><br>
+For a moment, ▆▆▆ looks almost broken. Their voice drops to a whisper.<br><br>
+Figure B: Please… please, just say my name once more.<br><br>
+▆▆▆ kneels before ▆▆▆, their hands trembling as they hover just short of touching ▆▆▆.<br><br>
+Figure B: So that all these years of waiting, of this endless torture, would mean something.<br><br>
+Figure A: I… I don’t know you.<br><br>
+▆▆▆ eyes flicker with disbelief, then something far darker.<br><br>
+Figure B: You don’t… know me?<br><br>
+A bitter laugh escapes ▆▆▆ lips.<br><br>
+Figure B: I was once… no—<br><br>
+▆▆▆ pauses, their voice faltering, caught between grief and rage.<br><br>
+Figure B: I am your everything.<br>
+</p>
+`;
 
-// Load and decrypt
+// Base64 encode
+let encrypted = "";
+try {
+    encrypted = btoa(dialogueHTML);
+} catch (e) {
+    console.error("Encoding error:", e);
+}
+
+// Unlock function
 function loadContent() {
     const pwd = document.getElementById("pwd").value;
 
@@ -16,15 +38,12 @@ function loadContent() {
     }
 
     try {
-        const bytes = CryptoJS.AES.decrypt(encryptedContent, PASSWORD);
-        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-
-        if (!decrypted) throw new Error();
-
-        document.getElementById("content").innerHTML = decrypted;
-        document.getElementById("content").style.display = "block";
-    } catch (err) {
+        const decrypted = atob(encrypted);
+        const content = document.getElementById("content");
+        content.innerHTML = decrypted;
+        content.style.display = "block";
+    } catch (e) {
+        console.error("Decode error:", e);
         alert("Error loading encrypted content.");
-        console.error(err);
     }
 }
