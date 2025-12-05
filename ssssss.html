@@ -1,115 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Congratulations</title>
+    <meta charset="UTF-8">
+    <title>Congratulations</title>
 
-<style>
-  @font-face {
-    font-family: "VCR";
-    src: url("VCR_OSD_MONO_1.001.ttf") format("truetype");
-  }
+    <style>
+        /* Hide everything until JS approves */
+        body {
+            display: none; /* Hidden until JS confirms access */
+            margin: 0;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: url('BG.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            font-family: "VCR", monospace;
+            text-align: center;
+        }
 
-  html,body{height:100%;margin:0}
-  body {
-    margin: 0;
-    font-family: "VCR", monospace;
-    background: url('BG.png') no-repeat center center fixed;
-    background-size: cover;
-    color: #fff;
-    text-align: center;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-  }
+        img {
+            max-width: 300px;
+            width: 50%;
+            height: auto;
+            margin-bottom: 20px;
+        }
 
-  #overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    color: #ff6767;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:99999;
-    flex-direction:column;
-    font-size:28px;
-    text-align:center;
-    padding:28px;
-  }
+        h1 {
+            font-size: 36px;
+            letter-spacing: 2px;
+            color: transparent;
+            -webkit-text-stroke: 2px #fff; /* White outline */
+            text-stroke: 2px #fff;
+        }
 
-  #card {
-    max-width:900px;
-    width:90%;
-    color:#fff;
-  }
+        .secret-link {
+            color: #FF6767;
+            font-size: 20px;
+            margin-top: 10px;
+            text-decoration: none;
+        }
 
-  .discord-btn {
-      margin-top: 25px;
-      padding: 12px 28px;
-      font-size: 20px;
-      font-family: "VCR";
-      background: rgba(0,0,0,0.7);
-      color: #FF6767;
-      border: 2px solid #FF6767;
-      cursor: pointer;
-      text-transform: uppercase;
-  }
+        .discord-btn {
+            margin-top: 25px;
+            padding: 12px 28px;
+            font-size: 20px;
+            font-family: "VCR";
+            background: rgba(0,0,0,0.7);
+            color: #FF6767;
+            border: 2px solid #FF6767;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
 
-  .discord-btn:hover {
-      background: #FF6767;
-      color: #000;
-  }
-</style>
+        .discord-btn:hover {
+            background: #FF6767;
+            color: #000;
+        }
+
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const allowed = sessionStorage.getItem("arg_access_granted");
+
+            if (!allowed) {
+                document.body.style.display = "flex";
+                document.body.innerHTML = `
+                    <h1 style="
+                        color:red;
+                        font-size:32px;
+                        -webkit-text-stroke: 0;
+                        text-stroke: 0;
+                    ">ACCESS DENIED</h1>
+                    <p style="color:white;">You are not allowed to view this page.</p>
+                `;
+            } else {
+                document.body.style.display = "flex";
+            }
+        });
+    </script>
 </head>
+
 <body>
+    <img src="done.gif" alt="Done">
+    <h1>Congratulations</h1>
 
-<div id="overlay" role="alert" aria-live="assertive">
-  <div>
-    <div style="font-weight:700; font-size:36px; color:#ff6767; margin-bottom:8px;">ENCRYPTED FILE</div>
-    <div style="color:#fff; margin-top:8px;">ACCESS DENIED — RETURN TO PASSWORD GATE</div>
-    <div style="margin-top:18px;"><a href="gate.html" style="color:#ff6767; text-decoration:none; font-family:VCR;">Go to Gate</a></div>
-  </div>
-</div>
 
-<div id="card" aria-hidden="true" style="display:none;">
-  <!-- decrypted content will be injected here -->
-  <div id="content"></div>
-</div>
 
-<script src="secure.js"></script>
-<script>
-(function(){
-  // attempt decrypt
-  var plain = attemptDecrypt();
-  if(plain){
-    // injection succesful
-    document.getElementById('content').innerHTML = plain;
-    document.getElementById('card').style.display = 'block';
-    document.getElementById('card').removeAttribute('aria-hidden');
-    // remove overlay
-    var ov = document.getElementById('overlay');
-    if(ov) ov.style.display = 'none';
-  } else {
-    // keep overlay visible
-    // Optionally add a small listener so if the user came from gate.html in same tab the overlay auto-updates
-    window.addEventListener('storage', function(e){
-      if(e.key === 'z' || e.key === 'arg_flag'){
-        // try again after a small delay
-        setTimeout(function(){
-          var p = attemptDecrypt();
-          if(p){
-            document.getElementById('content').innerHTML = p;
-            document.getElementById('card').style.display = 'block';
-            var ov2 = document.getElementById('overlay');
-            if(ov2) ov2.style.display = 'none';
-          }
-        }, 120);
-      }
-    }, false);
-  }
-})();
-</script>
+    <!-- Discord Redirect Button -->
+    <button class="discord-btn" onclick="window.location.href='https://discord.gg/YqUvseqeRv'">
+        Click here to join the Trials
+    </button>
+
 </body>
 </html>
+
