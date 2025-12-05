@@ -1,7 +1,7 @@
 // PASSWORD REQUIRED
 const PASSWORD = "999193";
 
-// YOUR SECRET DIALOGUE (plaintext)
+// SECRET DIALOGUE (plaintext)
 const dialogueHTML = `
 <p>
 Figure A: Marriage? To who?!<br><br>
@@ -20,13 +20,17 @@ Figure B: I am your everything.<br>
 </p>
 `;
 
-// Base64 encode
-let encrypted = "";
-try {
-    encrypted = btoa(dialogueHTML);
-} catch (e) {
-    console.error("Encoding error:", e);
+// --- UTF-8 SAFE ENCODER ---
+function utf8_to_b64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
 }
+
+// --- UTF-8 SAFE DECODER ---
+function b64_to_utf8(str) {
+    return decodeURIComponent(escape(atob(str)));
+}
+
+const encrypted = utf8_to_b64(dialogueHTML);
 
 // Unlock function
 function loadContent() {
@@ -38,12 +42,12 @@ function loadContent() {
     }
 
     try {
-        const decrypted = atob(encrypted);
+        const decrypted = b64_to_utf8(encrypted);
         const content = document.getElementById("content");
         content.innerHTML = decrypted;
         content.style.display = "block";
     } catch (e) {
-        console.error("Decode error:", e);
+        console.error("Decryption error:", e);
         alert("Error loading encrypted content.");
     }
 }
