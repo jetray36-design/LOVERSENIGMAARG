@@ -1,7 +1,8 @@
+<script>
 // PASSWORD
 const PASSWORD = "999193";
 
-// YOUR DIALOGUE (plaintext)
+// PLAINTEXT CONTENT
 const dialogueHTML = `
 <p>
 Figure A: Marriage? To who?!<br><br>
@@ -20,10 +21,10 @@ Figure B: I am your everything.<br>
 </p>
 `;
 
-// Encrypt on first load (kept hidden from user)
+// ENCRYPT
 const encrypted = btoa(dialogueHTML);
 
-// Unlock function
+// UNLOCK
 function loadContent() {
     const pwd = document.getElementById("pwd").value;
 
@@ -34,9 +35,12 @@ function loadContent() {
 
     try {
         const decrypted = atob(encrypted);
-        document.getElementById("content").innerHTML = decrypted;
-        document.getElementById("content").style.display = "block";
+        const content = document.getElementById("content");
+        content.innerHTML = decrypted;
+        content.style.display = "block";
     } catch (e) {
+        console.error(e);
         alert("Error loading encrypted content.");
     }
 }
+</script>
