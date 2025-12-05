@@ -1,8 +1,7 @@
-<script>
-// PASSWORD
+// PASSWORD REQUIRED
 const PASSWORD = "999193";
 
-// PLAINTEXT CONTENT
+// YOUR SECRET DIALOGUE (plaintext)
 const dialogueHTML = `
 <p>
 Figure A: Marriage? To who?!<br><br>
@@ -21,10 +20,10 @@ Figure B: I am your everything.<br>
 </p>
 `;
 
-// ENCRYPT
+// Encrypt dialogue (hidden)
 const encrypted = btoa(dialogueHTML);
 
-// UNLOCK
+// Function that unlocks content
 function loadContent() {
     const pwd = document.getElementById("pwd").value;
 
@@ -43,4 +42,3 @@ function loadContent() {
         alert("Error loading encrypted content.");
     }
 }
-</script>
