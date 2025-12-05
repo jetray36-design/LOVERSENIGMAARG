@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Trial of Heart</title>
+    <meta charset="utf-8">
+    <title>Trial of Heart — Gate</title>
 
     <style>
         @font-face {
@@ -9,8 +10,8 @@
             src: url("VCR_OSD_MONO_1.001.ttf") format("truetype");
         }
 
+        html,body{height:100%;margin:0}
         body {
-            margin: 0;
             font-family: "VCR", monospace;
             background: url("Lovers Enigma_Background_1.png") no-repeat center center fixed;
             background-size: cover;
@@ -18,122 +19,95 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             text-align: center;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .card {
+            background: rgba(0,0,0,0.45);
+            padding: 28px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.06);
+            width: min(560px, 92vw);
         }
 
-        .slots input {
-            width: 45px;
-            height: 45px;
-            font-size: 28px;
-            text-align: center;
-            margin: 7px;
-            text-transform: uppercase;
-            background: rgba(0,0,0,0.5);
+        input[type="password"] {
+            padding: 12px 14px;
+            font-size: 18px;
+            width: 60%;
+            max-width: 320px;
+            border-radius: 6px;
             border: 2px solid #fff;
+            background: rgba(0,0,0,0.6);
             color: #fff;
+            text-align:center;
+            font-family: "VCR", monospace;
         }
 
-        .submit-btn {
-            font-family: "VCR";
-            font-size: 26px;
-            padding: 18px 45px;
-            border: 3px solid #ffffff;
+        button {
+            margin-top: 16px;
+            padding: 10px 18px;
+            font-family: "VCR", monospace;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 2px solid #fff;
             background: transparent;
-            color: #ffffff;
+            color: #fff;
             cursor: pointer;
-            letter-spacing: 2px;
-            border-radius: 0px;
-            margin-top: 30px;
         }
 
-        #unlockBtn {
-            display: none;
-            margin-top: 25px;
-            padding: 12px 30px;
-            font-size: 20px;
-            cursor: pointer;
-            background: black;
-            border: 2px solid white;
-            color: white;
-            font-family: "VCR";
-        }
+        .hint { margin-top: 10px; color: #ccc; font-size: 14px; }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>ENTER THE 6-LETTER CODE</h1>
+  <div class="card" role="main" aria-labelledby="t">
+    <h1 id="t">ENTER PASSCODE</h1>
+    <p class="hint">Type the passcode to unlock the Trials</p>
 
-        <div class="slots">
-            <input type="text" maxlength="1" id="c1">
-            <input type="text" maxlength="1" id="c2">
-            <input type="text" maxlength="1" id="c3">
-            <input type="text" maxlength="1" id="c4">
-            <input type="text" maxlength="1" id="c5">
-            <input type="text" maxlength="1" id="c6">
-        </div>
-
-        <button class="submit-btn" onclick="checkCode()">SUBMIT</button>
-
-        <button id="unlockBtn">CONTINUE</button>
+    <input id="pw" type="password" placeholder="Passcode" aria-label="passcode">
+    <div>
+      <button id="ok">ENTER</button>
     </div>
+    <p class="hint">If correct you'll be taken to the Trials page.</p>
+  </div>
 
 <script>
 (function(){
+  const input = document.getElementById('pw');
+  const btn = document.getElementById('ok');
 
-    const x = [84,82];
-    const y = "SUFM";
-    const z = [0x53];
+  function obfStore(s){
+    // s: string (derived rotated chars). We'll base64 it, reverse and insert noise.
+    const b = btoa(s);
+    const arr = b.split('');
+    arr.reverse();
+    // insert noise at positions to confuse casual readers
+    arr.splice(2,0,'~'); arr.splice(6,0,'$');
+    const token = arr.join('');
+    sessionStorage.setItem('z', token);
+    // compatibility flag
+    sessionStorage.setItem('arg_flag', '1');
+  }
 
-    function f(a){ return String.fromCharCode(...a); }
-    function g(s){ return atob(s); }
+  btn.addEventListener('click', function(){
+    const val = (input.value||'').trim();
+    if(!val) { alert('Enter passcode.'); return; }
+    if(val.toUpperCase() === 'TRIALS') {
+      // derive rotated string (shift char codes by i+3)
+      const d = val.split('').map(function(c,i){
+        return String.fromCharCode(c.charCodeAt(0) + (i+3));
+      }).join('');
+      obfStore(d);
+      // short delay to ensure token written
+      setTimeout(()=> location.href = 'dialogue.html', 120);
+    } else {
+      alert('Incorrect passcode.');
+    }
+  });
 
-    const h = [
-        ()=>f(x),
-        ()=>g(y),
-        ()=>String.fromCharCode(z[0])
-    ];
-
-    const secret = h
-        .map(fn=>fn())
-        .join('')
-        .split('')
-        .filter((c,i)=>i<6)
-        .join('');
-
-    // Secret next page filename (hidden)
-    const nextPage = ["s","s","s","s","s",".","h","t","m","l"].join("");
-
-    // Unlock button click
-    document.getElementById("unlockBtn").onclick = () => {
-        window.location.href = nextPage + "?k=ok";
-    };
-
-    // Check code function
-    window.checkCode = function(){
-        let code =
-            c1.value + c2.value + c3.value + c4.value + c5.value + c6.value;
-
-        if(code.toUpperCase() === secret){
-            // ✅ Set session token so Page 2 knows access is granted
-            sessionStorage.setItem("arg_access_granted", "true");
-            unlockBtn.style.display = "inline-block";
-        } else {
-            alert("Incorrect code. Try again.");
-        }
-    };
-
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') btn.click();
+  });
 })();
 </script>
-
 </body>
 </html>
-
-
