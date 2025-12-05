@@ -20,7 +20,7 @@ Figure B: I am your everything.<br>
 </p>
 `;
 
-// Encrypt (hidden)
+// Encrypt on first load (kept hidden from user)
 const encrypted = btoa(dialogueHTML);
 
 // Unlock function
@@ -34,9 +34,8 @@ function loadContent() {
 
     try {
         const decrypted = atob(encrypted);
-        const content = document.getElementById("content");
-        content.innerHTML = decrypted;
-        content.style.display = "block";
+        document.getElementById("content").innerHTML = decrypted;
+        document.getElementById("content").style.display = "block";
     } catch (e) {
         alert("Error loading encrypted content.");
     }
