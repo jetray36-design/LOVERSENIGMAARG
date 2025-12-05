@@ -2,66 +2,112 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Locked Page</title>
-
-    <!-- VCR OSD Mono font -->
-    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <title>Trial of Heart — Gate</title>
 
     <style>
+        @font-face {
+            font-family: "VCR";
+            src: url("VCR_OSD_MONO_1.001.ttf") format("truetype");
+        }
+
+        html,body{height:100%;margin:0}
         body {
-            background: black;
-            color: white;
-            font-family: 'VCR OSD Mono', monospace;
-            height: 100vh;
-            margin: 0;
+            font-family: "VCR", monospace;
+            background: url("Lovers Enigma_Background_1.png") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
         }
 
-        #content {
-            margin-top: 30px;
-            width: 70%;
+        .card {
+            background: rgba(0,0,0,0.45);
+            padding: 28px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.06);
+            width: min(560px, 92vw);
         }
 
-        input {
-            padding: 8px 10px;
-            font-family: inherit;
-            background: #111;
-            color: white;
-            border: 1px solid white;
+        input[type="password"] {
+            padding: 12px 14px;
+            font-size: 18px;
+            width: 60%;
+            max-width: 320px;
+            border-radius: 6px;
+            border: 2px solid #fff;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            text-align:center;
+            font-family: "VCR", monospace;
         }
 
         button {
-            padding: 8px 15px;
-            margin-left: 10px;
-            font-family: inherit;
-            background: #222;
-            color: white;
-            border: 1px solid white;
+            margin-top: 16px;
+            padding: 10px 18px;
+            font-family: "VCR", monospace;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
             cursor: pointer;
         }
 
-        button:hover {
-            background: #333;
-        }
+        .hint { margin-top: 10px; color: #ccc; font-size: 14px; }
     </style>
 </head>
-
 <body>
+  <div class="card" role="main" aria-labelledby="t">
+    <h1 id="t">ENTER PASSCODE</h1>
+    <p class="hint">Type the passcode to unlock the Trials</p>
 
-<h2>Enter Password</h2>
+    <input id="pw" type="password" placeholder="Passcode" aria-label="passcode">
+    <div>
+      <button id="ok">ENTER</button>
+    </div>
+    <p class="hint">If correct you'll be taken to the Trials page.</p>
+  </div>
 
-<div>
-    <input type="password" id="pwd">
-    <button onclick="loadContent()">Unlock</button>
-</div>
+<script>
+(function(){
+  const input = document.getElementById('pw');
+  const btn = document.getElementById('ok');
 
-<div id="content" style="display:none;"></div>
+  function obfStore(s){
+    // s: string (derived rotated chars). We'll base64 it, reverse and insert noise.
+    const b = btoa(s);
+    const arr = b.split('');
+    arr.reverse();
+    // insert noise at positions to confuse casual readers
+    arr.splice(2,0,'~'); arr.splice(6,0,'$');
+    const token = arr.join('');
+    sessionStorage.setItem('z', token);
+    // compatibility flag
+    sessionStorage.setItem('arg_flag', '1');
+  }
 
-<script src="decrypt.js"></script>
+  btn.addEventListener('click', function(){
+    const val = (input.value||'').trim();
+    if(!val) { alert('Enter passcode.'); return; }
+    if(val.toUpperCase() === 'TRIALS') {
+      // derive rotated string (shift char codes by i+3)
+      const d = val.split('').map(function(c,i){
+        return String.fromCharCode(c.charCodeAt(0) + (i+3));
+      }).join('');
+      obfStore(d);
+      // short delay to ensure token written
+      setTimeout(()=> location.href = 'dialogue.html', 120);
+    } else {
+      alert('Incorrect passcode.');
+    }
+  });
 
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') btn.click();
+  });
+})();
+</script>
 </body>
 </html>
