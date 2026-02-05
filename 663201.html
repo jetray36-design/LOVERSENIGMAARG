@@ -3,38 +3,75 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | 663201</title>
-  </head>
-  <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1" style="width: 1920px; height: 1080px; background: #231F20"></canvas>
-    <script src="Build/HTML.loader.js"></script>
-    <script>
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-
-        var canvas = document.querySelector("#unity-canvas");
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        canvas.style.position = "fixed";
-
-        document.body.style.textAlign = "left";
+    <title>663201</title>
+    <style>
+      /* Reset and Force Fullscreen */
+      html, body { 
+        margin: 0; padding: 0; width: 100%; height: 100%; 
+        overflow: hidden; background-color: #000; 
       }
+      #unity-container { 
+        width: 100%; height: 100%; 
+      }
+      #unity-canvas { 
+        width: 100% !important; height: 100% !important; 
+        display: block; 
+      }
+      /* Loading Bar styling */
+      #unity-loading-bar { 
+        position: absolute; left: 50%; top: 50%; 
+        transform: translate(-50%, -50%); display: none; 
+      }
+      #unity-progress-bar-empty { 
+        width: 200px; height: 20px; background: #333; border-radius: 10px; 
+      }
+      #unity-progress-bar-full { 
+        width: 0%; height: 100%; background: #fff; border-radius: 10px; 
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      
+      <div id="unity-loading-bar">
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+    </div>
 
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/HTML.data",
-        frameworkUrl: "Build/HTML.framework.js",
-        codeUrl: "Build/HTML.wasm",
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/HTML.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/HTML.data",
+        frameworkUrl: buildUrl + "/HTML.framework.js",
+        codeUrl: buildUrl + "/HTML.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "663201",
         productVersion: "1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-      });
+      };
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
     </script>
   </body>
 </html>
