@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Not Now</title>
-
-    <!-- VCR OSD Mono font -->
-    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
-
-    <style>
-        body {
-            margin: 0;
-            background: white;
-            color: black;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'VCR OSD Mono', monospace;
-            font-size: 40px;
-            text-align: center;
-        }
-    </style>
+    <title>KOKKURI.EXE</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    now is not the time
+
+<div id="cmd-window">
+    <div id="title-bar">
+        <span>cmd.exe</span>
+        <div id="buttons">
+            <span>—</span>
+            <span>□</span>
+            <span>✕</span>
+        </div>
+    </div>
+
+    <div id="terminal"></div>
+
+    <div id="input-line">
+        <span id="prompt">C:\Lib_LenovoP44\Users\663201></span>
+        <input type="text" id="commandInput" autofocus />
+    </div>
+</div>
+
+<!-- Jumpscare Overlay -->
+<div id="jumpscare">
+    <img src="kazjc.png">
+</div>
+
+<script src="game.js"></script>
+
 </body>
 </html>
