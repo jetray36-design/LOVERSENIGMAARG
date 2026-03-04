@@ -36,7 +36,7 @@ const hauntSounds = [
 
 // 🔊 Johnny Guitar for final protocol
 const johnnyGuitar = new Audio("JohnnyGuitar.mp3");
-
+const kazukiScareSound = new Audio("thesound.mp3");
 function print(text = "") {
     terminal.innerHTML += text + "\n";
     terminal.scrollTop = terminal.scrollHeight;
@@ -277,16 +277,19 @@ function handleQuestion(q) {
     if (question.includes("kazuki")) {
     kazukiAskCount++;
 
-    // First 3 times → normal answer
     if (kazukiAskCount <= 3) {
         spellHorizontal("DEAD");
     } 
-    // After 3 times → trigger jumpscare
     else {
         spellHorizontal("STOP ASKING");
-        
+
         setTimeout(() => {
-            flashJumpscare(20); // stronger scare
+            flashJumpscare(20);
+
+            // Play sound every time scare triggers
+            kazukiScareSound.currentTime = 0; // restart sound
+            kazukiScareSound.play().catch(()=>{});
+            
         }, 1500);
     }
 
@@ -514,6 +517,7 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
+
 
 
 
