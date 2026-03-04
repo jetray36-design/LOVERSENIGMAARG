@@ -387,7 +387,7 @@ function handleFinalProtocol(inputText) {
         return;
     }
   if (inputText.toLowerCase() === "yes" && chantStep === 4) {
-    print("Welcome to the family of Hiroshi-No-Kami");
+    print("Welcome to the family");
 
     setTimeout(() => {
         slowPrint(asciiArt, 5); // VERY FAST but stable
@@ -497,5 +497,6 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
+
 
 
