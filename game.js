@@ -35,7 +35,7 @@ const hauntSounds = [
 ];
 
 // 🔊 Johnny Guitar for final protocol
-const johnnyGuitar = new Audio("johnnyguitar.mp3");
+const johnnyGuitar = new Audio("JohnnyGuitar.mp3");
 
 function print(text = "") {
     terminal.innerHTML += text + "\n";
@@ -138,11 +138,21 @@ function showHelp() {
     if (coinPlaced && paperPlaced && !spiritCalled) print("call spirit");
     if (spiritCalled) print("type your question");
 }
+function showRule() {
+    print("Don't ask about the dead too much");
+    print("Don't ask more than ${allowedQuesNum}");
+    print("Don't turn around in real life while using the application");
+    print("This application was made by ${authorName}");
+    print("Experiencing abnormal things while using this application is actually normal");
+    print("You take all responsibilities while using the application");
+}
+    
 
 function describeRoom() {
     print("You are standing in a cold, dark room.");
     print("A wooden table sits quietly before you.");
     print("Type HELP.");
+    print("Type RULE.");
 }
 
 // 🔒 DEBUG COMMANDS
@@ -232,7 +242,7 @@ function handleCommand(cmd) {
     return;
 }
 
-    if (command === "help") { showHelp(); return; }
+    if (command === "") { show(); return; }
     if (command === "take coin") { if (!coinTaken) { coinTaken = true; print("You picked up the coin."); } return; }
     if (command === "take paper") { if (!paperTaken) { paperTaken = true; print("You picked up the paper."); } return; }
     if (command === "place coin") { if (coinTaken && !coinPlaced) { coinPlaced = true; print("You placed the coin on the table."); } return; }
@@ -268,7 +278,7 @@ function handleQuestion(q) {
 
     // 1 in 5 chance
     if (Math.random() < 0.1) {
-        spellHorizontal("MASTER IM SORRY");
+        spellHorizontal("MASTER...");
     } else {
         const responses = ["PLAYFUL", "SUPPORTIVE", "CHEERFUL", "WISE"];
         spellHorizontal(responses[Math.floor(Math.random() * responses.length)]);
@@ -281,7 +291,7 @@ function handleQuestion(q) {
 
     // 10% chance to say "DON'T BE JEALOUS"
     if (Math.random() < 0.1) {
-        spellHorizontal("DON'T BE JEALOUS");
+        spellHorizontal("JEALOUSY...");
     } else {
         const responses = ["LOYAL", "THOUGHTFUL", "WARM", "RELIABLE"];
         spellHorizontal(responses[Math.floor(Math.random() * responses.length)]);
@@ -295,7 +305,7 @@ function handleQuestion(q) {
 
     // 10% chance to say "GOOD BYE MOTHER"
     if (Math.random() < 0.1) {
-        spellHorizontal("GOOD BYE MOTHER");
+        spellHorizontal("MOTHER?...MOTHER!!!");
     } else {
         const responses = ["THOUGHTFUL", "WARM", "AFFECTIONATE", "CARING"];
         spellHorizontal(responses[Math.floor(Math.random() * responses.length)]);
@@ -483,4 +493,5 @@ input.addEventListener("keydown", function(e) {
 
 // BOOT TEXT
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
+
 print("Enter passcode.");
