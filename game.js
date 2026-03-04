@@ -274,7 +274,24 @@ function handleQuestion(q) {
     }
     if (question.includes("cult woman")) { spellHorizontal("PRETTY"); return; }
     if (question.includes("yoko")) { spellHorizontal("BITTER"); return; }
-    if (question.includes("kazuki")) { kazukiAskCount++; spellHorizontal("DEAD"); return; }
+    if (question.includes("kazuki")) {
+    kazukiAskCount++;
+
+    // First 3 times → normal answer
+    if (kazukiAskCount <= 3) {
+        spellHorizontal("DEAD");
+    } 
+    // After 3 times → trigger jumpscare
+    else {
+        spellHorizontal("STOP ASKING");
+        
+        setTimeout(() => {
+            flashJumpscare(20); // stronger scare
+        }, 1500);
+    }
+
+    return;
+}
     if (question.includes("haruki")) {
     harukiAsked = true;
 
@@ -497,6 +514,7 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
+
 
 
 
