@@ -139,12 +139,12 @@ function showHelp() {
     if (spiritCalled) print("type your question");
 }
 function showRule() {
-    print("Don't ask about the dead too much");
-    print("Don't ask more than ${allowedQuesNum}");
-    print("Don't turn around in real life while using the application");
-    print("This application was made by ${authorName}");
-    print("Experiencing abnormal things while using this application is actually normal");
-    print("You take all responsibilities while using the application");
+    print("- Don't ask about the dead too much");
+    print("- Don't ask more than ${allowedQuesNum}");
+    print("- Don't turn around in real life while using the application");
+    print("- This application was made by ${authorName}");
+    print("- Experiencing abnormal things while using this application is actually normal");
+    print("- You take all responsibilities while using the application");
 }
     
 
@@ -497,4 +497,5 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
+
 
