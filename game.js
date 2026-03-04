@@ -243,6 +243,8 @@ function handleCommand(cmd) {
 }
 
     if (command === "") { show(); return; }
+    if (command === "help") return showHelp();
+    if (command === "rule") return showRule();
     if (command === "take coin") { if (!coinTaken) { coinTaken = true; print("You picked up the coin."); } return; }
     if (command === "take paper") { if (!paperTaken) { paperTaken = true; print("You picked up the paper."); } return; }
     if (command === "place coin") { if (coinTaken && !coinPlaced) { coinPlaced = true; print("You placed the coin on the table."); } return; }
@@ -495,3 +497,4 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
+
