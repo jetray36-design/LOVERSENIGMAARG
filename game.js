@@ -145,7 +145,7 @@ function showRule() {
     print("- This application was made by ${authorName}");
     print("- Experiencing abnormal things while using this application is actually normal");
     print("- You take all responsibilities while using the application");
-    print("- Version 0.3.4");
+    print(updateInstalled ? "- Version 0.3.4-PATCHED" : "- Version 0.3.4");
 }
     
 
@@ -573,6 +573,7 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
+
 
 
 
