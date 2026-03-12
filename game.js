@@ -22,7 +22,7 @@ let hauntStarted = false;
 let finalState = false;
 let chantStep = 0;
 let questionCount = 0;
-
+let updateInstalled = false;
 // 🔊 7 HAUNT SOUNDS
 const hauntSounds = [
     new Audio("1.mp3"),
@@ -190,7 +190,27 @@ function handleCommand(cmd) {
 
     // debug first
     if (handleDebugCommands(command)) return;
+// UPDATE SYSTEM
+if (command === "update") {
+    print("Invalid syntax.");
+    print("update pass_code");
+    return;
+}
 
+if (command === "update 41318") {
+    if (!updateInstalled) {
+        updateInstalled = true;
+
+        print("Updating database...");
+        setTimeout(() => print("Expanding response library..."), 600);
+        setTimeout(() => print("Patch installed successfully."), 1200);
+
+    } else {
+        print("System already up to date.");
+    }
+    return;
+}
+	
     // FINAL PROTOCOL STATE
     if (finalState) {
         handleFinalProtocol(command);
@@ -269,15 +289,52 @@ function handleQuestion(q) {
     if (question === "who are you") { spellHorizontal("KOKKURI"); return; }
     if (question === "where are you") { spellHorizontal("HERE"); return; }
     if (question.includes("past life") || question.includes("past lives") || question.includes("past live")) { 
-        if (question.includes("me") || question.includes("myself") || question.includes("i")) spellHorizontal("CENTIPEDE");
-        else spellHorizontal("WHO");
-        return;
+    if (question.includes("me") || question.includes("myself") || question.includes("i")) {
+
+        if (updateInstalled) {
+            const responses = ["CENTIPEDE","THE SOURCE","THE PAWNS"];
+            spellHorizontal(responses[Math.floor(Math.random()*responses.length)]);
+        } else {
+            spellHorizontal("CENTIPEDE");
+        }
+
+    } else {
+        spellHorizontal("WHO");
     }
+    return;
+}
     if (question.includes("cult woman")) { spellHorizontal("PRETTY"); return; }
-    if (question.includes("yoko")) { spellHorizontal("BITTER"); return; }
+    if (question.includes("yoko")) {
+
+    if (!updateInstalled) {
+        spellHorizontal("BITTER");
+    } 
+    else {
+
+        if (!window.yokoAskCount) window.yokoAskCount = 0;
+        window.yokoAskCount++;
+
+        if (window.yokoAskCount < 3) {
+            spellHorizontal("STUCK");
+        } else {
+            spellHorizontal("SHE KNOWS");
+        }
+
+    }
+
+    return;
+}
     if (question.includes("kazuki")) {
     kazukiAskCount++;
 
+    // AFTER UPDATE → new pool, no jumpscare ever
+    if (updateInstalled) {
+        const responses = ["COLD","FORGOTTEN","WEAK","METAMORPHOSIS"];
+        spellHorizontal(responses[Math.floor(Math.random()*responses.length)]);
+        return;
+    }
+
+    // BEFORE UPDATE → original behavior
     if (kazukiAskCount <= 3) {
         spellHorizontal("DEAD");
     } 
@@ -287,10 +344,8 @@ function handleQuestion(q) {
         setTimeout(() => {
             flashJumpscare(20);
 
-            // Play sound every time scare triggers
-            kazukiScareSound.currentTime = 0; // restart sound
+            kazukiScareSound.currentTime = 0;
             kazukiScareSound.play().catch(()=>{});
-            
         }, 1500);
     }
 
@@ -518,7 +573,6 @@ input.addEventListener("keydown", function(e) {
 print("C:\\Lib_LenovoP44\\Users\\663201>Run.exe");
 
 print("Enter passcode.");
-
 
 
 
