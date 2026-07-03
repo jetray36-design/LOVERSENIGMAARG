@@ -1,29 +1,1011 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Not Now</title>
-
-    <!-- VCR OSD Mono font -->
-    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kagami_Ren_Desktop_2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        body {
-            margin: 0;
-            background: white;
-            color: black;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'VCR OSD Mono', monospace;
-            font-size: 40px;
+        * { 
+            box-sizing: border-box; 
+            user-select: none; 
+            -webkit-user-drag: none; 
+        }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif; 
+            font-size: 12px; 
+            background: #000; 
+        }
+
+        /* Logon Screen styling mimicking Windows XP */
+        .logon-screen { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #5a7edc; 
+            display: flex; 
+            flex-direction: column; 
+            z-index: 9999; 
+            transition: opacity 0.8s ease-in-out, visibility 0.8s; 
+        }
+        .logon-header { 
+            height: 80px; 
+            background-color: #002080; 
+            border-bottom: 2px solid #5a7edc; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+        .logon-footer { 
+            height: 80px; 
+            background-color: #002080; 
+            border-top: 2px solid #5a7edc; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 30px; 
+            color: #fff; 
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.3); 
+        }
+        .logon-middle { 
+            flex-grow: 1; 
+            display: flex; 
+            background: linear-gradient(to bottom, #5a7edc 0%, #7a96df 40%, #7a96df 60%, #5a7edc 100%); 
+            position: relative; 
+        }
+        .logon-divider { 
+            width: 1px; 
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.4) 70%, rgba(255,255,255,0) 100%); 
+            position: absolute; 
+            top: 10%; 
+            bottom: 10%; 
+            left: 45%; 
+        }
+        .logon-brand { 
+            width: 45%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-end; 
+            justify-content: center; 
+            padding-right: 50px; 
+            color: #fff; 
+            text-align: right; 
+        }
+        
+        .xp-flag-container { 
+            display: flex; 
+            gap: 4px; 
+            margin-bottom: 15px; 
+            transform: scale(1.3); 
+        }
+        .xp-flag-quad { 
+            width: 20px; 
+            height: 20px; 
+            border-radius: 2px; 
+        }
+        .quad-red { background-color: #F25022; } 
+        .quad-green { background-color: #7FBA00; } 
+        .quad-blue { background-color: #00A4EF; } 
+        .quad-yellow { background-color: #FFB900; }
+        .xp-title { 
+            font-size: 28px; 
+            font-weight: bold; 
+        }
+        .logon-accounts { 
+            width: 55%; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            padding-left: 70px; 
+        }
+        
+        .user-card { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 10px; 
+        }
+        .user-avatar-frame { 
+            width: 54px; 
+            height: 54px; 
+            border: 2px solid #fff; 
+            border-radius: 4px; 
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.4); 
+            background-color: #0d47a1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden;
+        }
+        .apple-avatar-svg {
+            width: 80%;
+            height: 80%;
+        }
+        .user-info { 
+            display: flex; 
+            flex-direction: column; 
+            color: #fff; 
+        }
+        .username-text { 
+            font-size: 16px; 
+            font-weight: bold; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .password-section { 
+            margin-top: 6px; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            position: relative;
+        }
+        .logon-password-input { 
+            padding: 4px 6px; 
+            border: 1px solid #7F9DB9; 
+            border-radius: 2px; 
+            outline: none; 
+            width: 140px; 
+            font-size: 12px;
+        }
+        .logon-submit-btn { 
+            width: 22px; 
+            height: 22px; 
+            background: linear-gradient(to bottom, #76d275, #4CAF50); 
+            border: 1px solid #1B5E20; 
+            border-radius: 3px;
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            font-weight: bold;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .logon-submit-btn:hover {
+            background: linear-gradient(to bottom, #9cff9a, #45a049);
+        }
+
+        .hint-bubble {
+            display: none;
+            position: absolute;
+            left: 175px;
+            top: -15px;
+            background: #ffffe1;
+            border: 1px solid #000;
+            border-radius: 5px;
+            padding: 8px 12px;
+            color: #000;
+            width: 220px;
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            z-index: 10000;
+        }
+        .hint-bubble::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            border-width: 5px 10px 5px 0;
+            border-style: solid;
+            border-color: transparent #ffffe1 transparent transparent;
+            display: block;
+            width: 0;
+        }
+
+        .desktop { 
+            position: relative; 
+            width: 100%; 
+            height: calc(100% - 30px); 
+            /* Set to stretch exactly to fit any viewport screen size */
+            background: url('https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=1920') no-repeat; 
+            background-size: 100% 100%; 
+            opacity: 0; 
+            transition: opacity 1.2s; 
+        }
+        .desktop.visible { 
+            opacity: 1; 
+        }
+        
+        .icon-grid { 
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex; 
+            flex-direction: column; 
+            gap: 25px; 
+            z-index: 10;
+        }
+        .desktop-icon { 
+            width: 100px; 
+            height: 95px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            color: #fff; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9); 
             text-align: center;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            padding: 5px;
+            transition: background-color 0.1s, border-color 0.1s;
+        }
+        .desktop-icon i {
+            font-size: 38px;
+            margin-bottom: 8px;
+            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.5));
+        }
+        .desktop-icon span {
+            font-size: 12px;
+            word-wrap: break-word;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .desktop-icon:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        .desktop-icon.selected {
+            background-color: rgba(11, 97, 255, 0.45);
+            border: 1px solid rgba(11, 97, 255, 0.7);
+        }
+        
+        .window { 
+            position: absolute; 
+            background-color: #ECE9D8; 
+            border: 3px solid #0054E3; 
+            border-radius: 7px 7px 0 0; 
+            display: none; 
+            flex-direction: column; 
+            overflow: hidden; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            z-index: 50;
+        }
+        .window-header { 
+            background: linear-gradient(to right, #0058e6 0%, #1783ff 50%, #0058e6 100%);
+            color: #fff; 
+            padding: 6px 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: move; 
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            height: 30px;
+        }
+        .window-header-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .win-controls {
+            display: flex;
+            gap: 2px;
+        }
+        .win-btn { 
+            width: 21px; 
+            height: 21px; 
+            background: linear-gradient(to bottom, #5d98f8 0%, #0054e3 100%); 
+            border: 1px solid #fff; 
+            border-radius: 3px;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: inset 1px 1px 1px rgba(255,255,255,0.4);
+        }
+        .win-btn:active {
+            background: linear-gradient(to top, #5d98f8 0%, #0054e3 100%); 
+        }
+        .win-btn-close { 
+            background: linear-gradient(to bottom, #f28d71 0%, #e1491d 100%); 
+            border-color: #fff;
+        }
+        .win-btn-close:active {
+            background: linear-gradient(to top, #f28d71 0%, #e1491d 100%); 
+        }
+        .window-body { 
+            background-color: #FFF; 
+            flex-grow: 1; 
+            padding: 0; 
+            overflow: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .notepad-textarea { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            outline: none; 
+            resize: none; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 13px;
+            background-color: #fffffb; 
+            padding: 10px;
+            line-height: 1.5;
+            color: #111;
+        }
+        
+        .evidence-container {
+            width: 100%;
+            height: 100%;
+            background: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .evidence-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            cursor: zoom-in;
+            transition: transform 0.2s ease;
+        }
+        .evidence-img:hover {
+            transform: scale(1.02);
+        }
+        .img-overlay-hint {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: #ddd;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            pointer-events: none;
+            letter-spacing: 0.5px;
+        }
+
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            animation: fadeIn 0.25s ease-out;
+            overflow: hidden;
+        }
+        .lightbox-viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            pointer-events: none; /* Let events fall to the background or the img */
+        }
+        .lightbox-content {
+            pointer-events: auto; /* Enable dragging & zooming directly on the image */
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            box-shadow: 0 0 35px rgba(255,255,255,0.1);
+            cursor: grab;
+            user-select: none;
+            -webkit-user-drag: none;
+            transform-origin: center center;
+            transition: transform 0.05s ease-out;
+        }
+        .lightbox-content:active {
+            cursor: grabbing;
+        }
+        .lightbox-tip {
+            position: absolute;
+            bottom: 25px;
+            color: #888;
+            font-size: 11px;
+            pointer-events: none;
+            letter-spacing: 1px;
+            z-index: 10002;
+            text-align: center;
+            width: 100%;
+        }
+        .lightbox-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10005;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .lightbox-close-btn:hover {
+            background: rgba(255, 50, 50, 0.8);
+            border-color: #fff;
+            transform: scale(1.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .taskbar { 
+            position: absolute; 
+            bottom: 0; 
+            width: 100%; 
+            height: 30px; 
+            background: linear-gradient(to bottom, #245dda 0%, #113ca2 100%); 
+            display: none; 
+            align-items: center; 
+            z-index: 999;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+            justify-content: space-between;
+            padding-right: 10px;
+        }
+        .start-button { 
+            height: 100%; 
+            background: linear-gradient(to bottom, #4caf50 0%, #2e7d32 100%); 
+            padding: 0 15px; 
+            display: flex; 
+            align-items: center; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 14px;
+            font-style: italic;
+            cursor: pointer; 
+            border-right: 1px solid #1b5e20;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+            gap: 5px;
+        }
+        .start-button:hover {
+            background: linear-gradient(to bottom, #66bb6a 0%, #388e3c 100%);
+        }
+        .taskbar-clock {
+            color: #fff;
+            font-weight: bold;
+            font-size: 11px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding-left: 10px;
+            border-left: 1px solid #123180;
+            background: linear-gradient(to bottom, #092c74 0%, #134ca8 100%);
+        }
+
+        /* Dialog UI styling */
+        .system-dialog {
+            position: absolute;
+            width: 320px;
+            background: #ECE9D8;
+            border: 3px solid #0054E3;
+            border-radius: 7px 7px 0 0;
+            display: none;
+            flex-direction: column;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+            z-index: 1000;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .dialog-body {
+            background: #FFF;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .dialog-footer {
+            background: #ECE9D8;
+            padding: 8px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .sys-button {
+            padding: 4px 15px;
+            border: 1px solid #7F9DB9;
+            background: #f1ebd9;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+            font-weight: bold;
+        }
+        .sys-button:hover {
+            background: #fff;
+            border-color: #0054E3;
         }
     </style>
 </head>
-
 <body>
-    now is not the time
+    <div class="logon-screen" id="logon-screen">
+        <div class="logon-header"></div>
+        <div class="logon-middle">
+            <div class="logon-brand">
+                <div class="xp-flag-container">
+                    <div class="xp-flag-quad quad-red"></div><div class="xp-flag-quad quad-green"></div>
+                    <div class="xp-flag-quad quad-blue"></div><div class="xp-flag-quad quad-yellow"></div>
+                </div>
+                <div class="xp-title">Microsoft Windows XP</div>
+            </div>
+            <div class="logon-divider"></div>
+            <div class="logon-accounts">
+                <div class="user-card">
+                    <div class="user-avatar-frame">
+                        <!-- Apple icon vector acting as apple.jpg -->
+                        <svg class="apple-avatar-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 20C17.5 20 19 16 19 12C19 8.5 17 6.5 15 6.5C13.5 6.5 12.5 7.5 12 7.5C11.5 7.5 10.5 6.5 9 6.5C7 6.5 5 8.5 5 12C5 16 6.5 20 12 20Z" fill="#D32F2F"/>
+                            <path d="M12 5C11.5 4 11 3 13 1C14 2.5 13.5 4.5 12 5Z" fill="#2E7D32"/>
+                        </svg>
+                    </div>
+                    <div class="user-info">
+                        <span class="username-text">Kagami</span>
+                        <div class="password-section">
+                            <input type="password" class="logon-password-input" id="logon-password-field" placeholder="Password" onkeydown="if(event.key==='Enter') attemptLogon()">
+                            <div class="logon-submit-btn" onclick="attemptLogon()">➔</div>
+                            <div class="hint-bubble" id="hint-bubble">
+                                <strong>Logon Hint:</strong> Incorrect password. Please try again.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="logon-footer">
+            <span style="cursor: pointer;" onclick="playSysSound(150, 0.15, 'triangle')"><i class="fa-solid fa-power-off" style="color: #ff5722;"></i> Turn off computer</span>
+        </div>
+    </div>
+
+    <div class="desktop" id="desktop" onclick="deselectAllIcons(event)">
+        <div class="icon-grid">
+            <div class="desktop-icon" id="icon-my-computer" onclick="selectIcon(event, 'icon-my-computer')" ondblclick="openWindow('my-computer')">
+                <i class="fa-solid fa-computer" style="color: #4ea5e9;"></i>
+                <span>My Computer</span>
+            </div>
+            <div class="desktop-icon" id="icon-evidence" onclick="selectIcon(event, 'icon-evidence')" ondblclick="openWindow('evidence-viewer')">
+                <i class="fa-solid fa-file-image" style="color: #ff9800;"></i>
+                <span>evidence.png</span>
+            </div>
+            <div class="desktop-icon" id="icon-final-note" onclick="selectIcon(event, 'icon-final-note')" ondblclick="openWindow('final-note-notepad')">
+                <i class="fa-solid fa-file-lines" style="color: #ffffff;"></i>
+                <span>final_note.txt</span>
+            </div>
+            <div class="desktop-icon" id="icon-recycle" onclick="selectIcon(event, 'icon-recycle')" ondblclick="showRecycleBinAlert()">
+                <i class="fa-solid fa-trash-can" style="color: #8bc34a;"></i>
+                <span>Recycle Bin</span>
+            </div>
+        </div>
+
+        <!-- Window: My Computer -->
+        <div class="window" id="my-computer" style="width: 450px; height: 320px; top: 10%; left: 30%;">
+            <div class="window-header" onmousedown="dragStart(event, 'my-computer')" ontouchstart="dragStart(event, 'my-computer')">
+                <div class="window-header-title">
+                    <i class="fa-solid fa-computer"></i> My Computer
+                </div>
+                <div class="win-controls">
+                    <div class="win-btn win-btn-close" onclick="closeWindow('my-computer')">X</div>
+                </div>
+            </div>
+            <div class="window-body" style="background: #ECE9D8; padding: 15px;">
+                <div style="background: white; border: 1px solid #7F9DB9; padding: 15px; height: 100%; border-radius: 2px; overflow: auto;">
+                    <strong style="font-size: 13px; color: #002080;">Files Stored on This Computer</strong>
+                    <hr style="border: 0; border-top: 1px solid #d3d3d3; margin: 10px 0;">
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div style="text-align: center; width: 80px; cursor: pointer;" ondblclick="openWindow('final-note-notepad')">
+                            <i class="fa-solid fa-file-lines" style="font-size: 32px; color: #555; margin-bottom: 5px;"></i>
+                            <div style="font-size: 11px;">final_note.txt</div>
+                        </div>
+                        <div style="text-align: center; width: 80px; cursor: pointer;" ondblclick="openWindow('evidence-viewer')">
+                            <i class="fa-solid fa-file-image" style="font-size: 32px; color: #ff9800; margin-bottom: 5px;"></i>
+                            <div style="font-size: 11px;">evidence.png</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Window: Image Viewer -->
+        <div class="window" id="evidence-viewer" style="width: 600px; height: 480px; top: 15%; left: 35%;">
+            <div class="window-header" onmousedown="dragStart(event, 'evidence-viewer')" ontouchstart="dragStart(event, 'evidence-viewer')">
+                <div class="window-header-title">
+                    <i class="fa-solid fa-file-image"></i> evidence.png - Windows Picture Viewer
+                </div>
+                <div class="win-controls">
+                    <div class="win-btn win-btn-close" onclick="closeWindow('evidence-viewer')">X</div>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="evidence-container">
+                    <img id="evidence-image" class="evidence-img" src="evidence.png" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800';" alt="Dark train platform" onclick="openLightbox()">
+                    <div class="img-overlay-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Click to enlarge</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Window: Notepad -->
+        <div class="window" id="final-note-notepad" style="width: 550px; height: 420px; top: 20%; left: 25%;">
+            <div class="window-header" onmousedown="dragStart(event, 'final-note-notepad')" ontouchstart="dragStart(event, 'final-note-notepad')">
+                <div class="window-header-title">
+                    <i class="fa-solid fa-file-lines"></i> final_note.txt - Notepad
+                </div>
+                <div class="win-controls">
+                    <div class="win-btn win-btn-close" onclick="closeWindow('final-note-notepad')">X</div>
+                </div>
+            </div>
+            <div class="window-body">
+                <textarea class="notepad-textarea" readonly>I cannot do this anymore.
+
+The cold whispers from that abandoned platform... they still echo in my head every single time night falls. I swear, by whatever sanity I have left, I will never go near that cursed place again. All of this is more than enough. It is far too much for a simple human soul to carry.
+
+I thought I wanted answers. I thought I could solve the puzzle and save them all. But the truth is a heavy, rotting thing, and most importantly... I'm a nobody in their story.
+
+I am letting the dust settle over her tragic fate, over the old book in the city archive, and over the phantom train that never arrives.
+
+Starting tomorrow, I am returning to my ordinary, mundane life. I will drink my coffee in silence, I will watch the sunset without looking for signs, and I will pretend the dark doesn't hide anything. I will be just another face in the crowd, utterly forgettable, and safe.
+
+If you are reading this... please, do the same.
+Walk away.
+Let the ghosts have their peace, and keep yours.</textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Dialog -->
+    <div class="system-dialog" id="sys-alert">
+        <div class="window-header">
+            <div class="window-header-title"><i class="fa-solid fa-circle-exclamation"></i> Recycle Bin</div>
+        </div>
+        <div class="dialog-body">
+            <i class="fa-solid fa-circle-exclamation" style="color: #f44336; font-size: 28px;"></i>
+            <span id="alert-text">The Recycle Bin is empty.</span>
+        </div>
+        <div class="dialog-footer">
+            <button class="sys-button" onclick="closeAlertDialog()">OK</button>
+        </div>
+    </div>
+
+    <!-- Fullscreen Lightbox Frame (Clicking background closes, dragging image does not) -->
+    <div id="lightbox-frame" class="lightbox-modal" onclick="handleLightboxBackgroundClick(event)">
+        <div class="lightbox-close-btn" onclick="closeLightbox()" title="Close Frame"><i class="fa-solid fa-xmark"></i></div>
+        <div class="lightbox-viewport">
+            <img id="lightbox-image" class="lightbox-content" src="" alt="Enlarged evidence image">
+        </div>
+        <div class="lightbox-tip">Scroll to zoom in/out. Click and drag to pan image. Click background or "X" to close.</div>
+    </div>
+
+    <div class="taskbar" id="taskbar">
+        <div class="start-button" onclick="playSysSound(180, 0.1, 'sine')">
+            <i class="fa-brands fa-windows" style="font-size: 16px;"></i> Start
+        </div>
+        <div class="taskbar-clock" id="taskbar-clock">00:00 AM</div>
+    </div>
+
+    <script>
+        // Synthesize Windows XP alerts, startup sounds, and sounds using Web Audio API
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSysSound(freq, duration, type = 'sine', delay = 0) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+                
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime + delay);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + delay + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start(audioCtx.currentTime + delay);
+                osc.stop(audioCtx.currentTime + delay + duration);
+            } catch (e) {
+                console.log("Audio failed to load", e);
+            }
+        }
+
+        // Classic Windows XP Startup Chord synth!
+        function playStartupChords() {
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                // Perfect synth of the warm Eb major 9 chord
+                const notes = [155.56, 233.08, 311.13, 349.23, 466.16, 587.33, 698.46]; 
+                
+                notes.forEach((f, index) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now);
+                    
+                    gain.gain.setValueAtTime(0, now);
+                    gain.gain.linearRampToValueAtTime(0.04, now + 0.3 + (index * 0.05));
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 4.5);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 4.8);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        // Play error chord
+        function playErrorSound() {
+            playSysSound(150, 0.15, 'sawtooth');
+            playSysSound(148, 0.15, 'sawtooth', 0.05);
+        }
+
+        function attemptLogon() {
+            const pwd = document.getElementById('logon-password-field').value;
+            const hint = document.getElementById('hint-bubble');
+            
+            if (pwd === '41318') {
+                hint.style.display = 'none';
+                playStartupChords();
+                document.getElementById('logon-screen').style.opacity = '0';
+                setTimeout(() => { 
+                    document.getElementById('logon-screen').style.display = 'none'; 
+                    document.getElementById('desktop').classList.add('visible'); 
+                    document.getElementById('taskbar').style.display = 'flex'; 
+                }, 800);
+            } else {
+                playErrorSound();
+                hint.style.display = 'block';
+                setTimeout(() => {
+                    hint.style.display = 'none';
+                }, 4000);
+            }
+        }
+
+        function selectIcon(event, id) {
+            event.stopPropagation();
+            deselectAllIcons();
+            document.getElementById(id).classList.add('selected');
+        }
+
+        function deselectAllIcons() {
+            const icons = document.querySelectorAll('.desktop-icon');
+            icons.forEach(icon => icon.classList.remove('selected'));
+        }
+
+        let topZIndex = 50;
+        function openWindow(id) {
+            const win = document.getElementById(id);
+            win.style.display = 'flex';
+            topZIndex++;
+            win.style.zIndex = topZIndex;
+            playSysSound(440, 0.08, 'sine');
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).style.display = 'none';
+            playSysSound(330, 0.08, 'sine');
+        }
+
+        let scale = 1;
+        let pointX = 0;
+        let pointY = 0;
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+
+        function openLightbox() {
+            const evidenceImg = document.getElementById('evidence-image');
+            const lightbox = document.getElementById('lightbox-frame');
+            const lightboxImg = document.getElementById('lightbox-image');
+            
+            lightboxImg.src = evidenceImg.src;
+            lightbox.style.display = 'flex';
+            playSysSound(600, 0.1, 'sine');
+
+            // Reset image position
+            scale = 1;
+            pointX = 0;
+            pointY = 0;
+            updateTransform();
+        }
+
+        function handleLightboxBackgroundClick(event) {
+            // Only close if user clicked the backdrop frame itself, not the image
+            if (event.target.id === 'lightbox-frame' || event.target.className === 'lightbox-viewport') {
+                closeLightbox();
+            }
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-frame').style.display = 'none';
+            playSysSound(450, 0.08, 'sine');
+            isDragging = false;
+        }
+
+        function updateTransform() {
+            const img = document.getElementById('lightbox-image');
+            if (img) {
+                img.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+            }
+        }
+
+        // Zooming handler with mouse wheel (supports trackpads too)
+        function handleWheel(e) {
+            e.preventDefault();
+            const img = document.getElementById('lightbox-image');
+            const rect = img.getBoundingClientRect();
+            
+            // Zoom target mapping
+            const mouseX = e.clientX - rect.left - rect.width / 2;
+            const mouseY = e.clientY - rect.top - rect.height / 2;
+            
+            const zoomFactor = 1.15;
+            let nextScale = scale;
+            if (e.deltaY < 0) {
+                nextScale *= zoomFactor;
+            } else {
+                nextScale /= zoomFactor;
+            }
+            
+            // Constraint threshold bounds
+            nextScale = Math.min(Math.max(0.75, nextScale), 10);
+            
+            // Adjust relative offset position to stay focused on cursor zoom point
+            pointX -= mouseX * (nextScale / scale - 1);
+            pointY -= mouseY * (nextScale / scale - 1);
+            
+            scale = nextScale;
+            updateTransform();
+        }
+
+        // Pointer/mouse down event for dragging
+        function handleDragStart(e) {
+            e.preventDefault();
+            isDragging = true;
+            
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+            
+            startX = clientX - pointX;
+            startY = clientY - pointY;
+        }
+
+        // Dragging in action
+        function handleDragMove(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+            
+            pointX = clientX - startX;
+            pointY = clientY - startY;
+            updateTransform();
+        }
+
+        function handleDragEnd() {
+            isDragging = false;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const lightboxImg = document.getElementById('lightbox-image');
+            
+            // Event listeners for pan & zoom control
+            lightboxImg.addEventListener('wheel', handleWheel, { passive: false });
+            lightboxImg.addEventListener('mousedown', handleDragStart);
+            window.addEventListener('mousemove', handleDragMove);
+            window.addEventListener('mouseup', handleDragEnd);
+
+            // Add touch compatibility for mobile/tablets
+            lightboxImg.addEventListener('touchstart', handleDragStart, { passive: false });
+            window.addEventListener('touchmove', handleDragMove, { passive: false });
+            window.addEventListener('touchend', handleDragEnd);
+        });
+
+        // Alert dialog triggers
+        function showRecycleBinAlert() {
+            playErrorSound();
+            document.getElementById('sys-alert').style.display = 'flex';
+        }
+        function closeAlertDialog() {
+            document.getElementById('sys-alert').style.display = 'none';
+        }
+
+        let activeDragElement = null;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        function dragStart(e, id) {
+            activeDragElement = document.getElementById(id);
+            topZIndex++;
+            activeDragElement.style.zIndex = topZIndex;
+            
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+            
+            const rect = activeDragElement.getBoundingClientRect();
+            dragOffsetX = clientX - rect.left;
+            dragOffsetY = clientY - rect.top;
+            
+            document.addEventListener('mousemove', dragMove);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('touchmove', dragMove, { passive: false });
+            document.addEventListener('touchend', dragEnd);
+        }
+
+        function dragMove(e) {
+            if (!activeDragElement) return;
+            if (e.cancelable) e.preventDefault();
+            
+            const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+            
+            let newX = clientX - dragOffsetX;
+            let newY = clientY - dragOffsetY;
+            
+            // Constrain windows inside desktop view
+            if (newY < 0) newY = 0;
+            if (newY > window.innerHeight - 60) newY = window.innerHeight - 60;
+            
+            activeDragElement.style.left = newX + 'px';
+            activeDragElement.style.top = newY + 'px';
+        }
+
+        function dragEnd() {
+            activeDragElement = null;
+            document.removeEventListener('mousemove', dragMove);
+            document.removeEventListener('mouseup', dragEnd);
+            document.removeEventListener('touchmove', dragMove);
+            document.removeEventListener('touchend', dragEnd);
+        }
+
+        // Update real time XP taskbar clock
+        function updateClock() {
+            const clockEl = document.getElementById('taskbar-clock');
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            clockEl.textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
